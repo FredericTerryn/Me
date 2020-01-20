@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ME.dll;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace ME
 {
@@ -22,10 +17,12 @@ namespace ME
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // This method gets called by the runtime. Use this method to add services to the container. == DEPENDENCY INJECTION
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1); //DI DI DI DI
+            services.AddDbContext<MEDbContext>(builder => builder.UseSqlServer(Configuration.GetConnectionString("BooksDb")));  //DI DI DI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,5 +40,9 @@ namespace ME
             app.UseHttpsRedirection();
             app.UseMvc();
         }
+    }
+
+    class MeDbContext
+    {
     }
 }
